@@ -17,6 +17,7 @@
  *   results     Liste aus {t: Titel, d: Beschreibung}
  *   setup       Technisches Setup
  *   tools       Liste von Technologien / Werkzeugen
+ *   suite       true, wenn der Use Case ein Baustein der G&P Suite ist (optional)
  */
 
 window.AREAS = {
@@ -37,23 +38,204 @@ window.USECASES = [
   /* Plattform & ERP                                                      */
   /* ------------------------------------------------------------------ */
   {
-    id: "gup-hub",
-    title: "G&P Hub: ein Portal für alle Werkzeuge",
+    id: "gup-suite",
+    title: "G&P Suite: ein Portal für alle Werkzeuge",
+    area: "organisation",
+    type: "leuchtturm",
+    complexity: 7,
+    suite: true,
+    industry: "Beratung und produzierender Mittelstand",
+    impact: "Eine Anmeldung, ein Datenstamm, viele Werkzeuge",
+    teaser: "Das gemeinsame Dach für CRM, Pipeline, Angebote, Aufgaben, Dokumente und weitere Bausteine.",
+    problem: "Mit jeder neuen App wächst der Wildwuchs: eigene Logins, eigene Kundenlisten, eigene Excel-Exporte. Am Ende pflegt man dieselben Daten an fünf Stellen, und niemand weiß mehr, welche Version stimmt.",
+    solution: "Die G&P Suite ist eine geschützte Webplattform, unter deren Dach alle Werkzeuge laufen: CRM und Vertriebspipeline, Angebote, Präsentationen, Prozessgrafiken, Aufgaben, Teamchat, Tickets, Dokumente, Mediathek, Veranstaltungen und Learnings. Jede Person sieht nur, was zu ihrer Rolle passt. Über „Meine KI“ arbeitet die eigene KI mit den Rechten des Nutzers direkt in der Suite mit. Neue Werkzeuge kommen als Baustein dazu, statt als weitere Insel daneben zu entstehen.",
+    results: [
+      { t: "Einmal anmelden", d: "Ein Zugang mit Rollen und Rechten für alle Werkzeuge." },
+      { t: "Ein Datenstamm", d: "Kunden, Kontakte und Projekte sind überall gleich und aktuell." },
+      { t: "Wächst mit", d: "Jedes neue Werkzeug ist ein Baustein, kein neues Projekt von vorn." }
+    ],
+    setup: "Webanwendung (Next.js, TypeScript) mit PostgreSQL, Hintergrund-Worker für Erinnerungen und Verarbeitung, Rollen- und Rechtekonzept, Anbindung an Microsoft 365. Betrieb per Docker auf eigenem Server mit HTTPS und täglicher verschlüsselter Sicherung. Quellcode beim Kunden, keine laufenden Lizenzgebühren.",
+    tools: ["Webportal", "PostgreSQL", "Rollen & Rechte", "Microsoft 365", "MCP"]
+  },
+  {
+    id: "meine-ki",
+    title: "Meine KI: die eigene KI arbeitet im Portal mit",
     area: "organisation",
     type: "leuchtturm",
     complexity: 6,
-    industry: "Produzierender Mittelstand",
-    impact: "Eine Anmeldung, ein Datenstamm, viele Anwendungen",
-    teaser: "Das gemeinsame Dach für CRM, Servicebericht, Kalkulation und weitere Werkzeuge.",
-    problem: "Mit jeder neuen App wächst der Wildwuchs: eigene Logins, eigene Kundenlisten, eigene Excel-Exporte. Am Ende pflegt man dieselben Daten an fünf Stellen, und niemand weiß mehr, welche Version stimmt.",
-    solution: "Der G&P Hub ist ein Portal, unter dessen Dach alle Werkzeuge eines Unternehmens laufen. Mitarbeitende melden sich einmal an und sehen nur die Anwendungen, die zu ihrer Rolle passen. Kunden, Artikel und Mitarbeitende werden einmal gepflegt und von allen Modulen genutzt. Neue Werkzeuge werden als Modul ergänzt, statt als weitere Insel daneben zu entstehen.",
+    suite: true,
+    industry: "Beratung und Mittelstand",
+    impact: "Die KI arbeitet mit Ihren Rechten in Ihren Daten, versendet aber nichts",
+    teaser: "In vier Schritten verbunden: Die eigene KI liest, schreibt Entwürfe und pflegt Daten in der Suite.",
+    problem: "KI-Chats wissen nichts über Kunden, Projekte und Aufgaben im Unternehmen. Also wird kopiert und eingefügt, und die Ergebnisse landen wieder irgendwo außerhalb der Systeme.",
+    solution: "Jede Person verbindet ihre eigene KI in vier Schritten mit der Suite: KI wählen, verbinden, testen, Chat anheften. Die KI arbeitet dann als Agent mit genau den Rechten dieser Person: Sie findet Kontakte, legt Aufgaben an, schreibt Angebots- und E-Mail-Entwürfe und erstellt Präsentationen. Versendet wird nichts; die Freigabe bleibt beim Menschen. Die Chats bleiben beim jeweiligen KI-Anbieter.",
     results: [
-      { t: "Einmal anmelden", d: "Ein Zugang mit Rollen und Rechten für alle Werkzeuge." },
-      { t: "Ein Datenstamm", d: "Kunden, Artikel und Mitarbeitende sind überall gleich und aktuell." },
-      { t: "Wächst mit", d: "Jedes neue Werkzeug ist ein Modul, kein neues Projekt von vorn." }
+      { t: "KI mit Kontext", d: "Die KI kennt Kunden, Projekte und Aufgaben, ohne Kopieren und Einfügen." },
+      { t: "Sicher begrenzt", d: "Gleiche Rechte wie der Mensch, kein eigenständiger Versand." },
+      { t: "Freie Wahl", d: "Jede Person nutzt die KI, mit der sie am besten arbeitet." }
     ],
-    setup: "Webportal mit zentraler Anmeldung, Rollen- und Rechteverwaltung, gemeinsamer Datenbank und Modulstruktur. Schnittstellen zu ERP, Buchhaltung, Zeiterfassung und Microsoft 365. Ein KI-Assistent steht in allen Modulen zur Verfügung. Der Quellcode gehört dem Kunden, laufende Lizenzgebühren entfallen.",
-    tools: ["Webportal", "Single Sign-on", "Rollen & Rechte", "API", "KI-Assistent"]
+    setup: "MCP-Schnittstelle (Model Context Protocol) der Suite mit personenbezogener Anmeldung, Rechteprüfung je Aktion und Protokollierung. Unterstützt gängige KI-Assistenten wie Claude oder ChatGPT.",
+    tools: ["MCP", "Claude", "ChatGPT", "Rechteprüfung"]
+  },
+  {
+    id: "angebote-ki",
+    title: "Angebote im eigenen Briefformat, mit KI geschrieben",
+    area: "vertrieb",
+    type: "alltag",
+    complexity: 4,
+    suite: true,
+    industry: "Beratung und Dienstleistung",
+    impact: "Vom Gesprächsergebnis zum Word-Angebot in Minuten",
+    teaser: "Angebot anlegen, KI schreibt den Entwurf, Download als Word im Firmen-Briefformat.",
+    problem: "Angebote entstehen aus alten Word-Dateien: kopieren, umformulieren, Format reparieren, Nummer vergeben. Und hinterher weiß das CRM nichts davon.",
+    solution: "Das Angebot wird in der Suite angelegt und direkt mit dem Verkaufsprojekt verknüpft. Die KI schreibt den Entwurf auf Basis von Gesprächsnotizen und Musterangeboten; heraus kommt eine Word-Datei im eigenen Briefformat. Bereits versendete Angebote lassen sich hochladen. Die Suite selbst versendet nichts.",
+    results: [
+      { t: "Schneller Entwurf", d: "Die Routine schreibt die KI, der Berater schärft nach." },
+      { t: "Einheitliches Format", d: "Jedes Angebot im korrekten Briefformat mit Nummer." },
+      { t: "Pipeline aktuell", d: "Das Verkaufsprojekt rückt automatisch auf „Angebot“." }
+    ],
+    setup: "Angebotsmodul der G&P Suite, Word-Erzeugung aus Vorlage, KI-Entwurf über „Meine KI“, Verknüpfung mit CRM und Pipeline.",
+    tools: ["Word-Vorlage", "KI-Entwurf", "CRM"]
+  },
+  {
+    id: "vertriebspipeline",
+    title: "Vertriebspipeline mit Trichter und Umsatzaufteilung",
+    area: "vertrieb",
+    type: "alltag",
+    complexity: 5,
+    suite: true,
+    industry: "Beratungsnetzwerk",
+    impact: "Alle Verkaufsprojekte, gewichteter Umsatz und Anteile auf einen Blick",
+    teaser: "Ein Begriff, eine Stand-Leiste: Liste, Board und Trichter für alle Verkaufsprojekte.",
+    problem: "Akquise lief in Mails, Notizzetteln und Köpfen. Niemand wusste, welche Projekte heiß sind, wo der nächste Schritt fehlt und wer am Ende welchen Anteil am Umsatz hat.",
+    solution: "Jedes Verkaufsprojekt durchläuft dieselbe sechsstufige Leiste von der Chance bis zur Rückmeldung. Liste, Board und Trichter zeigen Umsatz, gewichteten Umsatz, Temperatur und überfällige nächste Schritte. Für gewonnene Projekte wird der Umsatz nach Rollen auf die beteiligten Berater aufgeteilt.",
+    results: [
+      { t: "Klarer Überblick", d: "Offene Projekte, Umsatz und Wahrscheinlichkeit je Stufe." },
+      { t: "Nichts versandet", d: "Projekte ohne nächsten Schritt werden markiert." },
+      { t: "Faire Aufteilung", d: "Umsatzanteile je Rolle transparent und nachvollziehbar." }
+    ],
+    setup: "Pipeline-Modul der G&P Suite auf Basis des CRM: Stand-Leiste, Board mit Ziehen und Ablegen, Trichter, Kennzahlen, Umsatzaufteilung je Projekt.",
+    tools: ["CRM", "Kanban", "Kennzahlen"]
+  },
+  {
+    id: "praesentation-briefing",
+    title: "PowerPoint im Firmendesign aus einem Briefing",
+    area: "marketing",
+    type: "alltag",
+    complexity: 4,
+    suite: true,
+    industry: "Beratung und Vertrieb",
+    impact: "Fertige Präsentation im eigenen Design statt leerer Folien",
+    teaser: "Briefing anlegen, die KI baut die PowerPoint, Rückmeldung geben, bis sie passt.",
+    problem: "Für jede Präsentation beginnt das Folienbauen von vorn, und das Corporate Design wird dabei mehr oder weniger getroffen.",
+    solution: "In der Suite wird ein Briefing angelegt: Anlass, Zielgruppe, Kernaussagen. Die KI baut daraus eine PowerPoint im Firmendesign. Über Rückmeldungen wird sie überarbeitet, bis sie passt. Alle Fassungen bleiben in der Suite.",
+    results: [
+      { t: "Schneller Start", d: "Aus dem Briefing entsteht direkt ein vollständiger Foliensatz." },
+      { t: "Immer im Design", d: "Folienmaster, Farben und Schriften stimmen automatisch." },
+      { t: "Nachvollziehbar", d: "Briefing, Rückmeldungen und Fassungen liegen zusammen." }
+    ],
+    setup: "Präsentationsmodul der G&P Suite, KI-Erstellung über „Meine KI“ mit Folienvorlage im Firmendesign, Versionierung.",
+    tools: ["PowerPoint", "KI", "Folienmaster"]
+  },
+  {
+    id: "prozessgrafik",
+    title: "Aus einer Beschreibung wird eine Prozessgrafik",
+    area: "organisation",
+    type: "alltag",
+    complexity: 3,
+    suite: true,
+    industry: "Beratung und produzierender Mittelstand",
+    impact: "Bearbeitbare Prozessdarstellung statt Textwüste",
+    teaser: "Beschreibungen und Dateien werden zur übersichtlichen, bearbeitbaren Prozessgrafik.",
+    problem: "Abläufe stehen in Protokollen, Mails und Köpfen. Eine saubere Prozessgrafik zu zeichnen kostet Zeit, also bleibt es bei Text.",
+    solution: "Prozessbeschreibungen oder Dateien werden mit KI oder von Hand in eine übersichtliche Prozessdarstellung überführt. Die Grafik lässt sich direkt bearbeiten und exportieren, zum Beispiel für Workshops, Handbücher oder Angebote.",
+    results: [
+      { t: "In Minuten sichtbar", d: "Aus Text wird eine Grafik, über die man sprechen kann." },
+      { t: "Bearbeitbar", d: "Schritte, Rollen und Übergaben direkt anpassen." },
+      { t: "Wiederverwendbar", d: "Export für Workshop, Handbuch oder Angebot." }
+    ],
+    setup: "Prozessmodul der G&P Suite mit Editor und Export, KI-Unterstützung über „Meine KI“.",
+    tools: ["Prozessgrafik", "KI", "Export"]
+  },
+  {
+    id: "mediathek",
+    title: "Mediathek mit Freigabe für Kunden und Marketing",
+    area: "marketing",
+    type: "alltag",
+    complexity: 4,
+    suite: true,
+    industry: "Kühlmöbelhersteller und Beratung",
+    impact: "Bilder zentral, Kunden sehen nur, was freigegeben ist",
+    teaser: "Fotos und Videos in Alben, mit Freigabestatus, Wasserzeichen und ZIP-Export.",
+    problem: "Produkt- und Workshopfotos lagen verstreut auf Handys, Laufwerken und in Mails. Für Marketing und Vertrieb war unklar, welche Bilder aktuell und freigegeben sind.",
+    solution: "Fotos und Videos werden in Alben gesammelt, im Team geteilt und gezielt für Kunden freigegeben. Ein Freigabe-Board führt Bilder von „Backlog“ über „In Benennung“ bis „Freigegeben“. Der Export als ZIP gelingt mit oder ohne Wasserzeichen; Originale bleiben in voller Qualität erhalten.",
+    results: [
+      { t: "Ein Bestand", d: "Alle Bilder an einem Ort statt auf zehn Geräten." },
+      { t: "Kontrollierte Freigabe", d: "Kunden sehen nur ausdrücklich freigegebene Alben." },
+      { t: "Schneller Versand", d: "Auswahlkorb und ZIP-Export mit Wasserzeichen." }
+    ],
+    setup: "Mediathek-Modul mit Speicherquoten, Virenprüfung im Hintergrund, Kundenportal, Kanban-Freigabe und Microsoft-365-Anbindung.",
+    tools: ["Mediathek", "Kundenportal", "Microsoft 365"]
+  },
+  {
+    id: "learnings",
+    title: "Learnings, die beim nächsten Mal wirklich auftauchen",
+    area: "organisation",
+    type: "alltag",
+    complexity: 2,
+    suite: true,
+    industry: "Beratung und Veranstaltungen",
+    impact: "Erfahrungen werden zum Startpunkt des nächsten Projekts",
+    teaser: "Erfahrungen festhalten, Verbesserungen planen, beim nächsten Anlass wiederverwenden.",
+    problem: "Nach jedem Workshop oder Event heißt es „das machen wir nächstes Mal besser“. Beim nächsten Mal ist es vergessen.",
+    solution: "Learnings werden direkt nach dem Anlass erfasst und als Verbesserungen auf einem Board geplant. Bei der nächsten Veranstaltung oder im nächsten Projekt tauchen sie wieder auf. Fehlende Pflichtangaben zeigt das Board direkt an.",
+    results: [
+      { t: "Nichts geht verloren", d: "Erkenntnisse landen sofort an einem festen Ort." },
+      { t: "Verbesserung mit Termin", d: "Aus Learnings werden geplante Maßnahmen." },
+      { t: "Gelebter KVP", d: "Kontinuierliche Verbesserung im Arbeitsalltag." }
+    ],
+    setup: "Learnings- und KVP-Modul der G&P Suite mit Board, Statuslogik und Verknüpfung zu Veranstaltungen.",
+    tools: ["KVP", "Kanban"]
+  },
+  {
+    id: "firmensuche",
+    title: "Zielkunden im Umkreis finden",
+    area: "vertrieb",
+    type: "alltag",
+    complexity: 4,
+    suite: true,
+    industry: "Kühlmöbelhersteller",
+    impact: "Passende Betriebe im Radius, mit Quelle und Entfernung",
+    teaser: "Suche nach Ort, Radius und Zielgruppe, getrennt nach Endkunden und Partnern.",
+    problem: "Neue Zielkunden wurden über Branchenbücher und Bauchgefühl gesucht. Ob ein Betrieb Endkunde oder möglicher Partner ist und wie weit er entfernt liegt, musste man jedes Mal neu herausfinden.",
+    solution: "Der Vertrieb gibt Ort oder PLZ, Radius, Zielgruppen und Suchbegriffe ein. Die Firmensuche liefert passende Betriebe, unterscheidet Endkunden und Partner, zeigt die Entfernung und verlinkt die Quelle. Suchläufe werden gespeichert und lassen sich wiederholen.",
+    results: [
+      { t: "Systematisch statt zufällig", d: "Zielgruppen und Radius sind klar definiert." },
+      { t: "Belegt", d: "Jeder Treffer mit Quelle und Recherchedatum." },
+      { t: "Wiederholbar", d: "Gespeicherte Suchläufe für neue Regionen." }
+    ],
+    setup: "Modul im Vertriebs- und AB-Manager auf Basis offener Kartendaten (OpenStreetMap), Umkreissuche, gespeicherte Läufe.",
+    tools: ["OpenStreetMap", "Umkreissuche", "Web-App"]
+  },
+  {
+    id: "kundenportal",
+    title: "B2B-Portal für Mitarbeitende und Kunden",
+    area: "service",
+    type: "leuchtturm",
+    complexity: 7,
+    suite: true,
+    industry: "Kühlmöbelhersteller",
+    impact: "Dokumente, Schulungen und Kundendaten in einer Anwendung",
+    teaser: "Interner Bereich, Kundenportal und Akademie in einem modularen Portal, später mit Shop.",
+    problem: "Datenblätter, Anleitungen und Zertifikate wurden per Mail verschickt, immer wieder neu und oft in alter Version. Für Schulungen und Kundeninformationen gab es keinen gemeinsamen Ort.",
+    solution: "Ein modulares Portal vereint den internen Mitarbeiterbereich und das Kundenportal. Mitarbeitende melden sich mit dem Microsoft-Konto an, Kunden mit eigenem Portalkonto und Zwei-Faktor-Schutz. Dokumente werden mit Versionen gepflegt und intern, extern oder kundenindividuell freigegeben. Ein Akademiebereich stellt Schulungen bereit; Shop und Vertrieb folgen als weitere Module.",
+    results: [
+      { t: "Immer aktuelle Dokumente", d: "Kunden finden die gültige Version selbst." },
+      { t: "Feine Rechte", d: "Jeder Kunde sieht nur, was für ihn freigegeben ist." },
+      { t: "Ausbaufähig", d: "Shop und Vertrieb als nächste Bausteine." }
+    ],
+    setup: "Modulare Webanwendung (Next.js, TypeScript, PostgreSQL), Anmeldung über Microsoft Entra und Portalkonten mit TOTP, Rechtematrix mit Rollen und Einzelrechten.",
+    tools: ["Webportal", "Microsoft Entra", "MFA", "PostgreSQL"]
   },
   {
     id: "schlankes-erp",
@@ -95,6 +277,7 @@ window.USECASES = [
   },
   {
     id: "servicebericht-app",
+    suite: true,
     title: "Vom Papier-Servicebericht zur App",
     area: "service",
     type: "alltag",
@@ -114,6 +297,7 @@ window.USECASES = [
   },
   {
     id: "basis-crm",
+    suite: true,
     title: "CRM als Basis-Software mit eigenem Quellcode",
     area: "vertrieb",
     type: "alltag",
@@ -289,21 +473,21 @@ window.USECASES = [
   },
   {
     id: "teams-agenten",
-    title: "KI-Agenten für alle in Microsoft Teams",
+    title: "KI-Assistenten für alle in Microsoft Teams",
     area: "organisation",
     type: "alltag",
     complexity: 3,
     industry: "Automatisierungstechnik, ca. 100 Mitarbeitende",
-    impact: "Firmeneigene Agenten dort, wo ohnehin gearbeitet wird",
-    teaser: "Zentral bereitgestellte KI-Agenten, aufrufbar mit drei Klicks in Teams.",
+    impact: "Firmeneigene Assistenten dort, wo ohnehin gearbeitet wird",
+    teaser: "Zentral bereitgestellte KI-Assistenten, aufrufbar mit drei Klicks in Teams.",
     problem: "KI-Werkzeuge waren nur bei wenigen Interessierten im Einsatz. Für die Breite der Belegschaft fehlten ein einfacher Zugang und klare Spielregeln.",
-    solution: "Die Agenten wurden zentral bereitgestellt und für die Mitarbeitenden freigegeben. Aufruf: Teams öffnen, Apps, Agent suchen, Anfrage stellen. Eine Kurzanleitung regelt gute Prompts und den Umgang mit vertraulichen Daten.",
+    solution: "Die Assistenten wurden zentral bereitgestellt und für die Mitarbeitenden freigegeben. Aufruf: Teams öffnen, Apps, Assistent suchen, Anfrage stellen. Eine Kurzanleitung regelt gute Prompts und den Umgang mit vertraulichen Daten.",
     results: [
-      { t: "Niedrige Hürde", d: "Kein neues Tool – die Agenten leben in Teams." },
-      { t: "Sicherer Rahmen", d: "Freigegebene Agenten statt Schatten-KI." },
+      { t: "Niedrige Hürde", d: "Kein neues Tool – die Assistenten leben in Teams." },
+      { t: "Sicherer Rahmen", d: "Freigegebene Assistenten statt Schatten-KI." },
       { t: "Breite Nutzung", d: "KI wird zum Alltagswerkzeug, nicht zum Spezialthema." }
     ],
-    setup: "Zentral bereitgestellte Agenten in Microsoft Teams (Copilot Studio), Freigabe über die Unternehmens-Apps, Kurzanleitung für Mitarbeitende.",
+    setup: "Zentral bereitgestellte Assistenten in Microsoft Teams (Copilot Studio), Freigabe über die Unternehmens-Apps, Kurzanleitung für Mitarbeitende.",
     tools: ["Microsoft Teams", "Copilot Studio"]
   },
 
@@ -331,13 +515,13 @@ window.USECASES = [
   },
   {
     id: "anfrage-zu-angebot",
-    title: "KI-Agent von der Anfrage zum Angebot",
+    title: "Vertriebsassistent: von der Anfrage zum Angebot",
     area: "vertrieb",
     type: "leuchtturm",
     complexity: 7,
     industry: "Hersteller von Kühlmöbeln, Sonderanfertigung",
     impact: "Schnellere Angebote, mehr Angebote – am Engpass gemessen",
-    teaser: "Ein Assistent entlastet Kalkulation und Konstruktion im Engpass Angebotsprozess.",
+    teaser: "Ein Software-Assistent führt durch die Kalkulation, KI belegt Angaben aus der Anfrage vor.",
     problem: "Der Engpass lag im Ablauf Anfrage – Kalkulation/Konstruktion – Angebot – Rückgabe an den Vertrieb. Zu wenige Angebote gingen raus, zu langsam – und damit blieb Umsatz liegen.",
     solution: "Eine maßgeschneiderte Web-App für Auftragsbearbeitung und Vertrieb führt durch die Angebotskalkulation. KI füllt Angaben aus der Anfrage vor, die Fachleute prüfen und ergänzen. Der erste Prototyp stand nach wenigen Projekttagen; die Wirkung wird an Durchlaufzeit und Angebotsanzahl gemessen.",
     results: [
@@ -407,6 +591,7 @@ window.USECASES = [
   },
   {
     id: "mitarbeiter-app",
+    suite: true,
     title: "Mitarbeiter-App: Zeitkonto und Urlaub auf dem Handy",
     area: "personal",
     type: "alltag",
@@ -445,7 +630,8 @@ window.USECASES = [
   },
   {
     id: "research-agent",
-    title: "Research-Agent für relevante Vertriebsgespräche",
+    suite: true,
+    title: "Akquise mit Research-Agent und Freigabeprozess",
     area: "vertrieb",
     type: "alltag",
     complexity: 4,
@@ -453,13 +639,13 @@ window.USECASES = [
     impact: "Wenige, gut begründete Gesprächsanlässe statt Kontaktmasse",
     teaser: "Ein Agent erstellt Dossiers zu Zielkunden – ein Mensch entscheidet über die Ansprache.",
     problem: "Akquise nach dem Gießkannenprinzip kostet Zeit und Ruf. Was fehlt, ist ein belegter Anlass: Nachfolge, Wachstum, ERP-Druck, Führungswechsel.",
-    solution: "Ein Research-Agent prüft Unternehmen gegen das Zielkundenprofil, sammelt öffentlich belegbare Signale und erstellt ein Dossier mit Quellen und Unsicherheiten. Ob, wie und über wen angesprochen wird, entscheidet ein Berater persönlich.",
+    solution: "Ein Research-Agent prüft Unternehmen selbstständig gegen das Zielkundenprofil, sammelt öffentlich belegbare Signale und erstellt ein Dossier mit Quellen und Unsicherheiten. In der Suite landen die Funde in der Akquise: Berater geben Feedback, ob ein Fund zu ihnen passt, Sperrlisten werden geprüft, und erst nach Freigabe wird der Kontakt ins CRM und als Verkaufsprojekt in die Pipeline übernommen.",
     results: [
       { t: "Bessere Gesprächsanlässe", d: "Ansprache nur bei starkem, belegbarem Anlass." },
       { t: "Transparente Quellen", d: "Jede Aussage im Dossier ist belegt." },
       { t: "Keine Serienmails", d: "Bewusst ohne automatisierte Massenansprache." }
     ],
-    setup: "KI-Agent mit Web-Recherche, strukturiertes Dossier-Template, Abgleich mit CRM-Masterliste.",
+    setup: "KI-Agent mit Web-Recherche und strukturiertem Dossier; Akquise-Modul der G&P Suite mit Feedback durch Berater, Sperrprüfung, Wiedervorlage und versionierter CRM-Übernahme ohne Dubletten.",
     tools: ["Claude", "Web-Recherche", "CRM"]
   },
   {

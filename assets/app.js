@@ -6,7 +6,7 @@
   var AREAS = window.AREAS || {};
   var TYPE_LABEL = { alltag: "Alltags-KI", leuchtturm: "Leuchtturmprojekt" };
 
-  var state = { q: "", type: "all", area: "all", sort: "complexity-asc" };
+  var state = { q: "", type: "all", area: "all", sort: "complexity-asc", suite: false };
   var visible = [];      // aktuell gefilterte & sortierte Liste
   var currentId = null;  // geöffneter Use Case
 
@@ -42,12 +42,14 @@
   // Vorfilter per URL, z. B. ?bereich=vertrieb&typ=leuchtturm
   if (params.get("bereich") && AREAS[params.get("bereich")]) state.area = params.get("bereich");
   if (params.get("typ") === "alltag" || params.get("typ") === "leuchtturm") state.type = params.get("typ");
+  if (params.get("suite") === "1") state.suite = true;
 
   $$("[data-count-all]").forEach(function (el) { el.textContent = DATA.length; });
 
   /* ---------------- Filter ---------------- */
   function matches(u, ignoreArea) {
     if (state.type !== "all" && u.type !== state.type) return false;
+    if (state.suite && !u.suite) return false;
     if (!ignoreArea && state.area !== "all" && u.area !== state.area) return false;
     if (state.q) {
       var terms = norm(state.q).split(/\s+/).filter(Boolean);
@@ -88,7 +90,8 @@
   function row(u) {
     return '<li><button type="button" class="row is-' + u.type + '" data-id="' + u.id + '" aria-haspopup="dialog">' +
       '<span class="row-area">' + esc((AREAS[u.area] || {}).label) + "</span>" +
-      '<span class="row-main"><span class="row-title">' + esc(u.title) + '</span><span class="row-teaser">' + esc(u.teaser) + "</span></span>" +
+      '<span class="row-main"><span class="row-title">' + esc(u.title) + '</span><span class="row-teaser">' + esc(u.teaser) + "</span>" +
+        (u.suite ? '<span class="row-suite">Baustein der G&amp;P Suite</span>' : "") + "</span>" +
       '<span class="row-impact">' + esc(u.impact) + "</span>" +
       '<span class="row-cx">' + meter(u.complexity) + "<span>" + TYPE_LABEL[u.type] + ", " + u.complexity + "/10</span></span>" +
       '<span class="row-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></span>' +
@@ -160,6 +163,7 @@
     $("#detail-crumb").textContent = area + " · " + (visible.indexOf(u) + 1 || "–") + " von " + visible.length;
     $("#detail-body").innerHTML =
       '<span class="detail-type ' + u.type + '"><span class="swatch" aria-hidden="true"></span>' + TYPE_LABEL[u.type] + "</span>" +
+      (u.suite ? '<span class="detail-suite">Baustein der G&amp;P Suite</span>' : "") +
       '<h2 id="detail-title">' + esc(u.title) + "</h2>" +
       '<p class="detail-impact">' + esc(u.impact) + "</p>" +
       '<dl class="facts">' +
@@ -244,6 +248,21 @@
   $$(".segmented button").forEach(function (b) {
     b.addEventListener("click", function () { setType(b.dataset.type); });
   });
+  function setSuite(on) {
+    state.suite = on;
+    var t = $("#suite-toggle");
+    if (t) t.setAttribute("aria-pressed", String(on));
+    refresh();
+  }
+  if ($("#suite-toggle")) $("#suite-toggle").addEventListener("click", function () { setSuite(!state.suite); });
+  $$("[data-show-suite]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      state.area = "all"; state.q = ""; $("#q").value = "";
+      setType("all");
+      setSuite(true);
+      $("#galerie").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    });
+  });
   $("#sort").addEventListener("change", function (e) { state.sort = e.target.value; renderGrid(); });
   $("#area-tabs").addEventListener("click", function (e) {
     var b = e.target.closest(".tab");
@@ -254,6 +273,7 @@
   $("#list").addEventListener("click", function (e) {
     if (e.target.id === "reset") {
       state.q = ""; state.area = "all"; $("#q").value = "";
+      setSuite(false);
       setType("all");
       return;
     }
@@ -290,6 +310,7 @@
 
   /* ---------------- Start ---------------- */
   if (state.type !== "all") $$(".segmented button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.type === state.type)); });
+  if (state.suite && $("#suite-toggle")) $("#suite-toggle").setAttribute("aria-pressed", "true");
   renderMap();
   refresh();
   fromHash();

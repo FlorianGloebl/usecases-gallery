@@ -18,6 +18,7 @@ Alle Inhalte stehen in **`assets/usecases.js`**. Einen neuen Eintrag in `USECASE
 | Zweck | URL |
 |---|---|
 | Einzelner Use Case | `https://www.usecases.g-u-p.de/#zeichnungen-schwaerzen` |
+| Nur Bausteine der G&P Suite | `https://www.usecases.g-u-p.de/?suite=1#galerie` |
 | Nur ein Bereich | `https://www.usecases.g-u-p.de/?bereich=vertrieb#galerie` |
 | Nur Leuchttürme | `https://www.usecases.g-u-p.de/?typ=leuchtturm#galerie` |
 
