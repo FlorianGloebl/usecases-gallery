@@ -21,7 +21,7 @@ Alle Inhalte stehen in **`assets/usecases.js`**. Einen neuen Eintrag in `USECASE
 | Nur ein Bereich | `https://www.usecases.g-u-p.de/?bereich=vertrieb#galerie` |
 | Nur Leuchttürme | `https://www.usecases.g-u-p.de/?typ=leuchtturm#galerie` |
 
-Bereiche: `vertrieb`, `einkauf`, `engineering`, `produktion`, `service`, `finanzen`, `marketing`, `personal`, `organisation`.
+Bereiche: `erp`, `vertrieb`, `einkauf`, `engineering`, `produktion`, `service`, `finanzen`, `marketing`, `personal`, `organisation`.
 
 ## Auf der Website einbinden
 

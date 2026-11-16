@@ -69,14 +69,14 @@
     var counts = {};
     var total = 0;
     DATA.forEach(function (u) { if (matches(u, true)) { counts[u.area] = (counts[u.area] || 0) + 1; total++; } });
-    var html = '<button type="button" class="chip" data-area="all" aria-pressed="' + (state.area === "all") + '">Alle Bereiche<span class="n">' + total + "</span></button>";
+    var html = '<button type="button" class="tab" data-area="all" aria-pressed="' + (state.area === "all") + '">Alle Bereiche<span class="n">' + total + "</span></button>";
     areaOrder.forEach(function (k) {
       var n = counts[k] || 0;
       if (!n && state.area !== k) return;
-      html += '<button type="button" class="chip" data-area="' + k + '" aria-pressed="' + (state.area === k) + '">' +
+      html += '<button type="button" class="tab" data-area="' + k + '" aria-pressed="' + (state.area === k) + '">' +
         esc(AREAS[k].label) + '<span class="n">' + n + "</span></button>";
     });
-    $("#area-chips").innerHTML = html;
+    $("#area-tabs").innerHTML = html;
   }
 
   /* ---------------- Karten ---------------- */
@@ -85,25 +85,24 @@
     for (var i = 1; i <= 10; i++) s += "<i" + (i <= c ? ' class="on"' : "") + "></i>";
     return s + "</span>";
   }
-  function card(u) {
-    return '<button type="button" class="card is-' + u.type + '" data-id="' + u.id + '" aria-haspopup="dialog">' +
-      '<span class="card-meta"><span>' + esc((AREAS[u.area] || {}).label) + '</span><span>G&amp;P-Projekt</span></span>' +
-      "<h3>" + esc(u.title) + "</h3>" +
-      '<span class="card-impact">' + esc(u.impact) + "</span>" +
-      '<span class="card-teaser">' + esc(u.teaser) + "</span>" +
-      '<span class="card-foot"><span class="meter">' + meter(u.complexity) + "<span>" + TYPE_LABEL[u.type] + " · " + u.complexity + "/10</span></span>" +
-      "</span>" +
-      "</button>";
+  function row(u) {
+    return '<li><button type="button" class="row is-' + u.type + '" data-id="' + u.id + '" aria-haspopup="dialog">' +
+      '<span class="row-area">' + esc((AREAS[u.area] || {}).label) + "</span>" +
+      '<span class="row-main"><span class="row-title">' + esc(u.title) + '</span><span class="row-teaser">' + esc(u.teaser) + "</span></span>" +
+      '<span class="row-impact">' + esc(u.impact) + "</span>" +
+      '<span class="row-cx">' + meter(u.complexity) + "<span>" + TYPE_LABEL[u.type] + ", " + u.complexity + "/10</span></span>" +
+      '<span class="row-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></span>' +
+      "</button></li>";
   }
   function renderGrid() {
     visible = DATA.filter(function (u) { return matches(u); }).sort(sorter);
-    var grid = $("#grid");
+    var list = $("#list");
     if (!visible.length) {
-      grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><strong>Kein Use Case passt zu diesen Filtern.</strong>' +
+      list.innerHTML = '<li class="empty"><strong>Kein Use Case passt zu diesen Filtern.</strong>' +
         "Versuchen Sie ein anderes Stichwort oder setzen Sie die Filter zurück." +
-        '<br><button type="button" class="btn btn-ghost" id="reset">Filter zurücksetzen</button></div>';
+        '<br><button type="button" class="btn btn-ghost" id="reset">Filter zurücksetzen</button></li>';
     } else {
-      grid.innerHTML = visible.map(card).join("");
+      list.innerHTML = visible.map(row).join("");
     }
     $("#result-count").innerHTML = "<strong>" + visible.length + "</strong> von " + DATA.length + " Use Cases";
     renderMapDim();
@@ -146,7 +145,7 @@
     tip.style.left = x + "px";
     tip.style.top = (r.top - chart.top) + "px";
     tip.classList.add("is-on");
-    $$("#grid .card").forEach(function (c) { c.classList.remove("is-hot"); });
+    $$("#list .row").forEach(function (c) { c.classList.remove("is-hot"); });
   }
   function hideTip() { if (tip) tip.classList.remove("is-on"); }
 
@@ -202,7 +201,7 @@
   dlg.addEventListener("close", function () {
     document.body.style.overflow = "";
     if (location.hash) history.replaceState(null, "", location.pathname + location.search);
-    var back = currentId && $('#grid .card[data-id="' + currentId + '"]');
+    var back = currentId && $('#list .row[data-id="' + currentId + '"]');
     currentId = null;
     if (back) back.focus({ preventScroll: false });
   });
@@ -246,24 +245,24 @@
     b.addEventListener("click", function () { setType(b.dataset.type); });
   });
   $("#sort").addEventListener("change", function (e) { state.sort = e.target.value; renderGrid(); });
-  $("#area-chips").addEventListener("click", function (e) {
-    var b = e.target.closest(".chip");
+  $("#area-tabs").addEventListener("click", function (e) {
+    var b = e.target.closest(".tab");
     if (!b) return;
     state.area = b.dataset.area;
     refresh();
   });
-  $("#grid").addEventListener("click", function (e) {
+  $("#list").addEventListener("click", function (e) {
     if (e.target.id === "reset") {
       state.q = ""; state.area = "all"; $("#q").value = "";
       setType("all");
       return;
     }
-    var c = e.target.closest(".card");
+    var c = e.target.closest(".row");
     if (c) openDetail(c.dataset.id);
   });
   // Hover auf Karte hebt Symbol in der Landkarte hervor
-  $("#grid").addEventListener("mouseover", function (e) {
-    var c = e.target.closest(".card");
+  $("#list").addEventListener("mouseover", function (e) {
+    var c = e.target.closest(".row");
     $$("#map-cols .dot.is-hot").forEach(function (d) { d.classList.remove("is-hot"); });
     if (c) { var d = $('#map-cols .dot[data-id="' + c.dataset.id + '"]'); if (d) d.classList.add("is-hot"); }
   });

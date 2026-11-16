@@ -20,6 +20,7 @@
  */
 
 window.AREAS = {
+  erp:          { label: "ERP & Warenwirtschaft" },
   vertrieb:     { label: "Vertrieb & Angebot" },
   einkauf:      { label: "Einkauf" },
   engineering:  { label: "Engineering & Konstruktion" },
@@ -32,6 +33,105 @@ window.AREAS = {
 };
 
 window.USECASES = [
+  /* ------------------------------------------------------------------ */
+  /* Plattform & ERP                                                      */
+  /* ------------------------------------------------------------------ */
+  {
+    id: "gup-hub",
+    title: "G&P Hub: ein Portal für alle Werkzeuge",
+    area: "organisation",
+    type: "leuchtturm",
+    complexity: 6,
+    industry: "Produzierender Mittelstand",
+    impact: "Eine Anmeldung, ein Datenstamm, viele Anwendungen",
+    teaser: "Das gemeinsame Dach für CRM, Servicebericht, Kalkulation und weitere Werkzeuge.",
+    problem: "Mit jeder neuen App wächst der Wildwuchs: eigene Logins, eigene Kundenlisten, eigene Excel-Exporte. Am Ende pflegt man dieselben Daten an fünf Stellen, und niemand weiß mehr, welche Version stimmt.",
+    solution: "Der G&P Hub ist ein Portal, unter dessen Dach alle Werkzeuge eines Unternehmens laufen. Mitarbeitende melden sich einmal an und sehen nur die Anwendungen, die zu ihrer Rolle passen. Kunden, Artikel und Mitarbeitende werden einmal gepflegt und von allen Modulen genutzt. Neue Werkzeuge werden als Modul ergänzt, statt als weitere Insel daneben zu entstehen.",
+    results: [
+      { t: "Einmal anmelden", d: "Ein Zugang mit Rollen und Rechten für alle Werkzeuge." },
+      { t: "Ein Datenstamm", d: "Kunden, Artikel und Mitarbeitende sind überall gleich und aktuell." },
+      { t: "Wächst mit", d: "Jedes neue Werkzeug ist ein Modul, kein neues Projekt von vorn." }
+    ],
+    setup: "Webportal mit zentraler Anmeldung, Rollen- und Rechteverwaltung, gemeinsamer Datenbank und Modulstruktur. Schnittstellen zu ERP, Buchhaltung, Zeiterfassung und Microsoft 365. Ein KI-Assistent steht in allen Modulen zur Verfügung. Der Quellcode gehört dem Kunden, laufende Lizenzgebühren entfallen.",
+    tools: ["Webportal", "Single Sign-on", "Rollen & Rechte", "API", "KI-Assistent"]
+  },
+  {
+    id: "schlankes-erp",
+    title: "Schlankes ERP nach Maß",
+    area: "erp",
+    type: "leuchtturm",
+    complexity: 7,
+    industry: "Mittelständischer Handels- und Fertigungsbetrieb",
+    impact: "Warenwirtschaft, Vertrieb und Versand in einem System",
+    teaser: "Ein kompaktes ERP, gebaut entlang der tatsächlichen Abläufe statt eines Standardpakets.",
+    problem: "Die Standard-ERP-Angebote waren für den Betrieb zu groß, zu teuer und an den entscheidenden Stellen trotzdem unpassend. Gearbeitet wurde mit einem gewachsenen Mix aus Altsystem, Excel und Papier.",
+    solution: "Wir haben ein schlankes ERP gebaut, das genau die Abläufe des Betriebs abbildet. Die Warenwirtschaft führt Artikel, Lager und Bestände. Im Vertrieb laufen Angebote und Aufträge, und der Versand erzeugt Lieferscheine und hält den Versandstatus fest. Alle Bereiche arbeiten auf denselben Daten, vom Angebot bis zur Auslieferung.",
+    results: [
+      { t: "Ein System statt Insellösungen", d: "Warenwirtschaft, Vertrieb und Versand greifen ineinander." },
+      { t: "Passt zum Betrieb", d: "Gebaut wurde nur, was im Alltag tatsächlich gebraucht wird." },
+      { t: "Eigenständig erweiterbar", d: "Quellcode beim Kunden, Weiterentwicklung auch mit KI." }
+    ],
+    setup: "Webbasierte Anwendung mit relationaler Datenbank: Artikel- und Lagerverwaltung, Kunden, Angebote, Aufträge, Lieferscheine und Versand. Rollenbasierter Zugriff, Datenübernahme aus dem Altbestand, Export an die Buchhaltung.",
+    tools: ["Web-App", "Datenbank", "Warenwirtschaft", "Versand"]
+  },
+  {
+    id: "erp-erweiterung",
+    title: "Vorhandenes ERP weiterentwickeln statt wechseln",
+    area: "erp",
+    type: "alltag",
+    complexity: 5,
+    industry: "Produzierender Mittelstand",
+    impact: "Rund 20 Stunden Listenpflege pro Monat entfallen",
+    teaser: "Die fehlende Funktion als eigene Software, angebunden per Schnittstelle.",
+    problem: "Das ERP trägt den Betrieb, doch eine wichtige Funktion fehlte. Sie lief in einer Excel-Liste neben dem ERP, und die Daten wanderten von Hand zwischen Liste und System hin und her. Ein kompletter Systemwechsel stand im Raum.",
+    solution: "Statt eines Wechsels haben wir die fehlende Funktion als eigene Software gebaut. Sie ist über eine Schnittstelle an das ERP angebunden, liest die benötigten Daten und schreibt die Ergebnisse kontrolliert zurück. Parallel erproben Mitarbeitende mit KI eigene Anwendungen für ihren Arbeitsbereich.",
+    results: [
+      { t: "Excel-Nebenliste abgelöst", d: "Alle arbeiten mit denselben aktuellen Daten im ERP." },
+      { t: "Kein Systemwechsel", d: "Das ERP bleibt die führende Quelle." },
+      { t: "Zeit gewonnen", d: "Rund 20 Stunden Listenpflege im Monat entfallen." }
+    ],
+    setup: "Eigenständige Anwendung mit API-Anbindung an das bestehende ERP, lesender Zugriff und kontrolliertes Zurückschreiben.",
+    tools: ["ERP-API", "Web-App"]
+  },
+  {
+    id: "servicebericht-app",
+    title: "Vom Papier-Servicebericht zur App",
+    area: "service",
+    type: "alltag",
+    complexity: 4,
+    industry: "Technischer Service, Maschinenbau",
+    impact: "Rechnung geht Tage früher raus, rund 15 Stunden pro Monat frei",
+    teaser: "Techniker erfassen Einsätze am Tablet, der Leistungsnachweis geht automatisch raus.",
+    problem: "Die Servicetechniker dokumentierten jeden Einsatz auf einem Papierformular: Maschinen, Arbeiten, Material, Arbeits- und Fahrzeiten. Im Büro wurde alles für die Rechnung ein zweites Mal abgetippt.",
+    solution: "Eine Web-App für Handy, Tablet und Laptop führt in sechs Schritten durch den Einsatz: Auftrag, Maschinen und Arbeiten, Material, Zeiten und Fahrt, Ergebnis, Unterschrift und Versand. Pflichtfelder werden direkt geprüft, jede Eingabe wird fortlaufend gespeichert. Dazu kommen Auftragsübersicht, Kalender, Kunden- und Maschinenstamm sowie ein Kundenimport aus der Buchhaltung.",
+    results: [
+      { t: "Schnellere Rechnung", d: "Niemand tippt mehr ab, die Rechnung geht Tage früher raus." },
+      { t: "Digitale Unterschrift", d: "Der Leistungsnachweis entsteht als PDF und geht direkt an den Kunden." },
+      { t: "15 Stunden pro Monat", d: "Das Büro erhält alles fertig aufbereitet, fehlende Preise sind markiert." }
+    ],
+    setup: "Responsive Web-App mit fortlaufender Speicherung, digitaler Unterschrift, PDF-Erzeugung und E-Mail-Versand; Stammdatenimport aus der Buchhaltung.",
+    tools: ["Web-App", "Tablet", "PDF", "Buchhaltung"]
+  },
+  {
+    id: "basis-crm",
+    title: "CRM als Basis-Software mit eigenem Quellcode",
+    area: "vertrieb",
+    type: "alltag",
+    complexity: 4,
+    industry: "Mittelstand, Vertrieb und Innendienst",
+    impact: "Eigenes CRM ohne laufende Lizenzgebühren",
+    teaser: "Ein fertiges CRM, das das eigene Team mit KI selbst weiterentwickelt.",
+    problem: "Standard-CRMs kosten pro Nutzer und Monat, bringen viele ungenutzte Funktionen mit, und jede Anpassung wird zum teuren Customizing. Deshalb lebt die Kundenpflege oft weiter in Excel und Outlook.",
+    solution: "Das Unternehmen erhält eine fertige CRM-Anwendung als Basis-Software, inklusive Quellcode. Wir passen sie an die eigenen Abläufe an und begleiten das Team, bis es Erweiterungen mit KI-Unterstützung selbst umsetzt.",
+    results: [
+      { t: "Keine Lizenzgebühren", d: "Der Quellcode gehört dem Unternehmen." },
+      { t: "Schneller Start", d: "Fertige Basis statt Entwicklung von null." },
+      { t: "Selbst weiterentwickeln", d: "Das Team baut Erweiterungen mit KI eigenständig." }
+    ],
+    setup: "Web-CRM mit Kunden, Kontakten, Aktivitäten und Verkaufschancen; Übergabe des Quellcodes, Einstieg mit 15 bis 20 Begleittagen.",
+    tools: ["Web-App", "Quellcode", "KI-gestützte Entwicklung"]
+  },
+
   /* ------------------------------------------------------------------ */
   /* Alltags-KI / Low Hanging Fruits                                      */
   /* ------------------------------------------------------------------ */
@@ -270,7 +370,7 @@ window.USECASES = [
   {
     id: "webshop-erp",
     title: "Webshop als digitales Frontend des ERP",
-    area: "vertrieb",
+    area: "erp",
     type: "leuchtturm",
     complexity: 6,
     industry: "Mittelstand mit Webshop oder Kundenportal",
