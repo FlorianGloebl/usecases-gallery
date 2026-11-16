@@ -12,7 +12,6 @@ Alle Inhalte stehen in **`assets/usecases.js`**. Einen neuen Eintrag in `USECASE
 - `type`: `"alltag"` (Alltags-KI) oder `"leuchtturm"` (Leuchtturmprojekt)
 - `complexity`: 1–10 (bestimmt die Position in der Landkarte)
 - `area`: einer der Schlüssel aus `AREAS` (Vertrieb, Einkauf, …)
-- `source`: `"gup"` (eigenes Projekt) oder `"kim"` (KIM-Netzwerk von V&S)
 
 ## Direktlinks
 
@@ -56,6 +55,6 @@ Kombinierbar, z. B. `?embed=1&bereich=vertrieb` für eine Vertriebs-Unterseite.
 python3 -m http.server 8000   # dann http://localhost:8000 öffnen
 ```
 
-## Quellen
+## Hinweis
 
-Ein Teil der Use Cases stammt aus der *AI Use Case Gallery* des Programms „KIM – Künstliche Intelligenz im Mittelstand“ der Vollmer & Scheffczyk GmbH (Nutzung freigegeben). Kundennamen sind anonymisiert.
+Alle Use Cases sind G&P-Projekte; Kundennamen sind anonymisiert.

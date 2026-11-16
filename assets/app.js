@@ -5,7 +5,6 @@
   var DATA = window.USECASES || [];
   var AREAS = window.AREAS || {};
   var TYPE_LABEL = { alltag: "Alltags-KI", leuchtturm: "Leuchtturmprojekt" };
-  var SOURCE_LABEL = { gup: "G&P-Projekt", kim: "KIM-Netzwerk (V&S)" };
 
   var state = { q: "", type: "all", area: "all", sort: "complexity-asc" };
   var visible = [];      // aktuell gefilterte & sortierte Liste
@@ -24,7 +23,7 @@
   }
   function haystack(u) {
     return norm([u.title, u.teaser, u.impact, u.problem, u.solution, u.setup, u.industry,
-      (AREAS[u.area] || {}).label, TYPE_LABEL[u.type], u.status, (u.tools || []).join(" ")].join(" "));
+      (AREAS[u.area] || {}).label, TYPE_LABEL[u.type], (u.tools || []).join(" ")].join(" "));
   }
   DATA.forEach(function (u) { u._hay = haystack(u); });
 
@@ -61,7 +60,6 @@
     switch (state.sort) {
       case "complexity-desc": return b.complexity - a.complexity || a.title.localeCompare(b.title, "de");
       case "area": return areaOrder.indexOf(a.area) - areaOrder.indexOf(b.area) || a.complexity - b.complexity;
-      case "gup": return (a.source === "gup" ? 0 : 1) - (b.source === "gup" ? 0 : 1) || a.complexity - b.complexity;
       default: return a.complexity - b.complexity || a.title.localeCompare(b.title, "de");
     }
   }
@@ -89,12 +87,12 @@
   }
   function card(u) {
     return '<button type="button" class="card is-' + u.type + '" data-id="' + u.id + '" aria-haspopup="dialog">' +
-      '<span class="card-meta"><span>' + esc((AREAS[u.area] || {}).label) + '</span><span class="status" data-s="' + esc(u.status) + '">' + esc(u.status) + "</span></span>" +
+      '<span class="card-meta"><span>' + esc((AREAS[u.area] || {}).label) + '</span><span>G&amp;P-Projekt</span></span>' +
       "<h3>" + esc(u.title) + "</h3>" +
       '<span class="card-impact">' + esc(u.impact) + "</span>" +
       '<span class="card-teaser">' + esc(u.teaser) + "</span>" +
       '<span class="card-foot"><span class="meter">' + meter(u.complexity) + "<span>" + TYPE_LABEL[u.type] + " · " + u.complexity + "/10</span></span>" +
-      '<span class="source-tag ' + u.source + '">' + (u.source === "gup" ? "G&amp;P" : "KIM") + "</span></span>" +
+      "</span>" +
       "</button>";
   }
   function renderGrid() {
@@ -169,7 +167,7 @@
         "<div><dt>Bereich</dt><dd>" + esc(area) + "</dd></div>" +
         "<div><dt>Branche</dt><dd>" + esc(u.industry) + "</dd></div>" +
         "<div><dt>Komplexität</dt><dd>" + u.complexity + " von 10</dd></div>" +
-        '<div><dt>Status</dt><dd><span class="status" data-s="' + esc(u.status) + '">' + esc(u.status) + "</span></dd></div>" +
+        "<div><dt>Projekttyp</dt><dd>" + TYPE_LABEL[u.type] + "</dd></div>" +
       "</dl>" +
       "<h3>Ausgangslage</h3><p>" + esc(u.problem) + "</p>" +
       "<h3>Lösung</h3><p>" + esc(u.solution) + "</p>" +
@@ -180,9 +178,7 @@
       '<div class="tools">' + (u.tools || []).map(function (t) { return "<span>" + esc(t) + "</span>"; }).join("") + "</div>" +
       '<div class="detail-cta"><p>So etwas auch für Ihr Unternehmen?</p>' +
         '<a class="btn btn-light" href="mailto:info@g-u-p.de?subject=' + mailSubject + "&body=" + mailBody + '">Use Case besprechen</a></div>' +
-      '<p class="detail-source">Quelle: ' + esc(SOURCE_LABEL[u.source]) +
-        (u.status === "Beispielrechnung" ? " · Hypothetisches Rechenbeispiel" : "") +
-        ' · <button type="button" class="linklike" id="copy-link" style="background:none;border:0;padding:0;color:inherit;text-decoration:underline;cursor:pointer;font-size:inherit">Link zu diesem Use Case kopieren</button> <span class="copy-ok" id="copy-ok" aria-live="polite"></span></p>';
+      '<p class="detail-source">G&amp;P-Projekt · <button type="button" class="linklike" id="copy-link" style="background:none;border:0;padding:0;color:inherit;text-decoration:underline;cursor:pointer;font-size:inherit">Link zu diesem Use Case kopieren</button> <span class="copy-ok" id="copy-ok" aria-live="polite"></span></p>';
     $("#detail-body").scrollTop = 0;
     var idx = visible.indexOf(u);
     $("#detail-prev").disabled = idx <= 0;
